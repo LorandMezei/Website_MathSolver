@@ -16,7 +16,7 @@ function parseInput(input)
   // Iterate through each character in array.
   var index1 = 0;
   var index2 = 0;
-  while (index1 < chars.size)
+  while (index1 < chars.length)
   {
     // string that will take on the value of a operator or digit(s).
     var stringToAdd = "";
@@ -35,14 +35,14 @@ function parseInput(input)
         index2 = index1;
 
         // While there are adjacent digits:
-        while (!chars[index2].isNaN() && index2 < chars.size)
+        while (!chars[index2].isNaN() && index2 < chars.length)
         {
             // Concatenate the digits together into a single string.
             stringToAdd += chars[index2];
             index2++;
 
             // Make sure index2 doesn't read from outside of array bounds.
-            if (index2 >= chars.size)
+            if (index2 >= chars.length)
             {
                 break;
             }
@@ -100,12 +100,62 @@ class ExpressionTreeBuilder
 {
   startBuildTree(expression, tree)
   {
+    // Find the index in the expression array that is the root value of the current expression.
+    var rootIndex = findRootIndex(expression);
 
+    // Create a new node that will be the root node of the tree.
+    var rootNode = Node();
+
+    // Set the content of the root node to be the root value found in the expression array.
+    rootNode.content = expression[rootIndex];
+
+    // Set the Tree's root node to be the node that was created.
+    tree.rootNode = rootNode;
+
+    // Call the recursive build tree method on the left child of the tree's root, with the subexpression passed
+    // (this subexpression is every value in the expression array that is to the left of the root value).
+    rootNode.leftNode = buildTree(expression.slice(0, rootIndex));
+
+    // Call the recursive build tree method on the right child of the tree's root, with the subexpression passed
+    // (this subexpression is every value in the expression array that is to the right of the root value).
+    rootNode.rightNode = buildTree(expression.slice(rootIndex + 1, expression.size));
   }
 
   buildTree(expression)
   {
+    // Base case: If the length of the expression array is 1, that means that it is a leaf node,
+    // and it stores only an integer.
+    if (expression.length == 1)
+    {
+        var currentNode = Node();
+        currentNode.content = expression[0];
 
+        return currentNode;
+    }
+
+    if (expression.length == 0)
+    {
+        console.log("empty expression");
+    }
+
+    // Find the index in the expression array that is the root value of the current expression.
+    val rootIndex = findRootIndex(expression);
+
+    // Create a new node that will be the current node.
+    var currentNode = Node();
+
+    // Set the content of the current node to be the root value found in the expression array.
+    currentNode.content = expression[rootIndex];
+
+    // Call the recursive build tree method on the left child of the tree's root, with the subexpression passed
+    // (this subexpression is every value in the expression array that is to the left of the root value).
+    currentNode.leftNode = buildTree(expression.slice(0, rootIndex));
+
+    // Call the recursive build tree method on the left right of the tree's root, with the subexpression passed
+    // (this subexpression is every value in the expression array that is to the right of the root value).
+    currentNode.rightNode = buildTree(expression.slice(rootIndex + 1, expression.length));
+
+    return currentNode;
   }
 
   /**
