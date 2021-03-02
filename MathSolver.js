@@ -108,9 +108,84 @@ class ExpressionTreeBuilder
 
   }
 
+  /**
+     * Given a string array, find the index of the root.
+     * The string that will be the root is the last (rightmost) string in the array with the lowest priority.
+     *
+     * @param expression
+     * @return index of the root in string array
+  */
   findRootIndex(expression)
   {
+    // If expression string array is empty, return -1.
+    if (expression.length == 0)
+        return -1;
 
+    // Operators that a string's characters can be.
+    var operators = ["^", "*", "/", "+", "-"];
+
+    // Set the initial root index to 0.
+    var rootIndex = 0;
+
+    // Iterate through each string in the expression.
+    for (currentIndex = 0; currentIndex < expression.length; currentIndex++)
+    {
+        // If the current string is an operator and the root string is an operator.
+        if (operators.includes(expression[currentIndex]) && operators.includes(expression[rootIndex]))
+        {
+            val currentString = expression[currentIndex];
+            val rootString = expression[rootIndex];
+
+            // If current string (operator) being looked at does NOT HAVE priority over root string (operator):
+            if (!checkOperatorPriority(currentString, rootString))
+            {
+                // set rootIndex to index of current string.
+                rootIndex = currentIndex;
+            }
+        }
+        // If the current string is an operator and the root string is an operand.
+        else if (operators.includes(expression[currentIndex]) && !operators.includes(expression[rootIndex]))
+        {
+            val currentString = expression[currentIndex];
+            val rootString = expression[rootIndex];
+
+            // If current string (operator) being looked at HAS priority over root string (operand):
+            if (checkOperatorPriority(currentString, rootString))
+            {
+                // set rootIndex to index of current string.
+                rootIndex = currentIndex;
+            }
+        }
+        // If the current string is an operand and the root string is an operand.
+        else if (!operators.includes(expression[currentIndex]) && !operators.includes(expression[rootIndex]))
+        {
+            val currentString = expression[currentIndex];
+            val rootString = expression[rootIndex];
+
+            // If current string (operand) being looked at does not have priority over root string (operand):
+            if (!checkOperatorPriority(currentString, rootString))
+            {
+                // set rootIndex to index of current string.
+                rootIndex = currentIndex;
+            }
+        }
+        // If the current string is an operand and the root string is an operator.
+        else if (!operators.includes(expression[currentIndex]) && operators.includes(expression[rootIndex]))
+        {
+            val currentString = expression[currentIndex];
+            val rootString = expression[rootIndex];
+
+            // If current string (operand) being looked at does HAS priority over root string (operator):
+            if (checkOperatorPriority(currentString, rootString))
+            {
+                // set rootIndex to index of current string.
+                rootIndex = currentIndex;
+            }
+        }
+    }
+
+    // Return the index of the root in the expression.
+    return rootIndex;
   }
 
   /**
@@ -177,7 +252,7 @@ class ExpressionTreeBuilder
     //-------------------------------------
 
     // Return the priority of the current char over the root char.
-    return hasPriority
+    return hasPriority;
   }
 }
 //------------------------------------------------------------------------------
