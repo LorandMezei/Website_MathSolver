@@ -1,28 +1,3 @@
-// Main ------------------------------------------------------------------------
-const input = "1+22-333";
-const expression = parseInput(input);
-
-const expressionTree = createExpressionTree(expression);
-
-const visitor = CalculateVisitor();
-console.log("Calculated value: " + expressionTree.traverse(visitor));
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
-// Takes an expression (in the form of an array of strings),
-// and returns an ExpressionTree.
-function createExpressionTree(expression)
-{
-  // Build the expression tree. Pass the expression and the Tree object to create it in.
-  const expressionTreeBuilder = ExpressionTreeBuilder();
-  const expressionTree = ExpressionTree();
-
-  expressionTreeBuilder.startBuildTree(expression, t);
-
-  return expressionTree;
-}
-//------------------------------------------------------------------------------
-
 //------------------------------------------------------------------------------
 // Turn a string into an array of string.
 function parseInput(input)
@@ -42,7 +17,7 @@ function parseInput(input)
     var stringToAdd = "";
 
     // If the current character in array is NOT a digit (is an operator):
-    if (chars[index1].isNaN()
+    if (isNaN(chars[index1]))
     {
         // Make that operator to a string.
         stringToAdd += chars[index1];
@@ -50,12 +25,12 @@ function parseInput(input)
     }
 
     // If the current character in array IS a digit:
-    else if (!chars[index1].isNaN())
+    else if (!isNaN(chars[index1]))
     {
         index2 = index1;
 
         // While there are adjacent digits:
-        while (!chars[index2].isNaN() && index2 < chars.length)
+        while (!isNaN(chars[index2]) && index2 < chars.length)
         {
             // Concatenate the digits together into a single string.
             stringToAdd += chars[index2];
@@ -86,14 +61,14 @@ function parseInput(input)
 //------------------------------------------------------------------------------
 class ExpressionTree
 {
-  constructor
+  constructor()
   {
     this.rootNode = null;
   }
 
   traverse(visitor)
   {
-    return rootNode.accept(visitor);
+    return this.rootNode.accept(visitor);
   }
 }
 //------------------------------------------------------------------------------
@@ -121,10 +96,10 @@ class ExpressionTreeBuilder
   startBuildTree(expression, tree)
   {
     // Find the index in the expression array that is the root value of the current expression.
-    var rootIndex = findRootIndex(expression);
+    var rootIndex = this.findRootIndex(expression);
 
     // Create a new node that will be the root node of the tree.
-    var rootNode = Node();
+    var rootNode = new Node();
 
     // Set the content of the root node to be the root value found in the expression array.
     rootNode.content = expression[rootIndex];
@@ -134,11 +109,11 @@ class ExpressionTreeBuilder
 
     // Call the recursive build tree method on the left child of the tree's root, with the subexpression passed
     // (this subexpression is every value in the expression array that is to the left of the root value).
-    rootNode.leftNode = buildTree(expression.slice(0, rootIndex));
+    rootNode.leftNode = this.buildTree(expression.slice(0, rootIndex));
 
     // Call the recursive build tree method on the right child of the tree's root, with the subexpression passed
     // (this subexpression is every value in the expression array that is to the right of the root value).
-    rootNode.rightNode = buildTree(expression.slice(rootIndex + 1, expression.size));
+    rootNode.rightNode = this.buildTree(expression.slice(rootIndex + 1, expression.size));
   }
 
   buildTree(expression)
@@ -147,7 +122,7 @@ class ExpressionTreeBuilder
     // and it stores only an integer.
     if (expression.length == 1)
     {
-        var currentNode = Node();
+        var currentNode = new Node();
         currentNode.content = expression[0];
 
         return currentNode;
@@ -159,21 +134,21 @@ class ExpressionTreeBuilder
     }
 
     // Find the index in the expression array that is the root value of the current expression.
-    const rootIndex = findRootIndex(expression);
+    const rootIndex = this.findRootIndex(expression);
 
     // Create a new node that will be the current node.
-    var currentNode = Node();
+    var currentNode = new Node();
 
     // Set the content of the current node to be the root value found in the expression array.
     currentNode.content = expression[rootIndex];
 
     // Call the recursive build tree method on the left child of the tree's root, with the subexpression passed
     // (this subexpression is every value in the expression array that is to the left of the root value).
-    currentNode.leftNode = buildTree(expression.slice(0, rootIndex));
+    currentNode.leftNode = this.buildTree(expression.slice(0, rootIndex));
 
     // Call the recursive build tree method on the left right of the tree's root, with the subexpression passed
     // (this subexpression is every value in the expression array that is to the right of the root value).
-    currentNode.rightNode = buildTree(expression.slice(rootIndex + 1, expression.length));
+    currentNode.rightNode = this.buildTree(expression.slice(rootIndex + 1, expression.length));
 
     return currentNode;
   }
@@ -198,7 +173,7 @@ class ExpressionTreeBuilder
     var rootIndex = 0;
 
     // Iterate through each string in the expression.
-    for (currentIndex = 0; currentIndex < expression.length; currentIndex++)
+    for (var currentIndex = 0; currentIndex < expression.length; currentIndex++)
     {
         // If the current string is an operator and the root string is an operator.
         if (operators.includes(expression[currentIndex]) && operators.includes(expression[rootIndex]))
@@ -207,7 +182,7 @@ class ExpressionTreeBuilder
             const rootString = expression[rootIndex];
 
             // If current string (operator) being looked at does NOT HAVE priority over root string (operator):
-            if (!checkOperatorPriority(currentString, rootString))
+            if (!this.checkOperatorPriority(currentString, rootString))
             {
                 // set rootIndex to index of current string.
                 rootIndex = currentIndex;
@@ -220,7 +195,7 @@ class ExpressionTreeBuilder
             const rootString = expression[rootIndex];
 
             // If current string (operator) being looked at HAS priority over root string (operand):
-            if (checkOperatorPriority(currentString, rootString))
+            if (this.checkOperatorPriority(currentString, rootString))
             {
                 // set rootIndex to index of current string.
                 rootIndex = currentIndex;
@@ -233,7 +208,7 @@ class ExpressionTreeBuilder
             const rootString = expression[rootIndex];
 
             // If current string (operand) being looked at does not have priority over root string (operand):
-            if (!checkOperatorPriority(currentString, rootString))
+            if (!this.checkOperatorPriority(currentString, rootString))
             {
                 // set rootIndex to index of current string.
                 rootIndex = currentIndex;
@@ -246,7 +221,7 @@ class ExpressionTreeBuilder
             const rootString = expression[rootIndex];
 
             // If current string (operand) being looked at does HAS priority over root string (operator):
-            if (checkOperatorPriority(currentString, rootString))
+            if (this.checkOperatorPriority(currentString, rootString))
             {
                 // set rootIndex to index of current string.
                 rootIndex = currentIndex;
@@ -328,7 +303,22 @@ class ExpressionTreeBuilder
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-class PrefixPrintVisitor()
+// Takes an expression (in the form of an array of strings),
+// and returns an ExpressionTree object.
+function createExpressionTree(expression)
+{
+  // Build the expression tree. Pass the expression and the Tree object to create it in.
+  const tb = new ExpressionTreeBuilder();
+  const t = new ExpressionTree();
+
+  tb.startBuildTree(expression, t);
+
+  return t;
+}
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+class PrefixPrintVisitor
 {
   visit(node)
   {
@@ -381,7 +371,7 @@ class PrefixPrintVisitor()
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-class CalculateVisitor()
+class CalculateVisitor
 {
   // Recursive.
   visit(node)
@@ -390,7 +380,7 @@ class CalculateVisitor()
       if (node.leftNode == null && node.rightNode == null)
       {
           // Return the value of the node's content.
-          return node.content.toDouble();
+          return parseFloat(node.content);
       }
       else
       {
@@ -427,12 +417,6 @@ class CalculateVisitor()
               break;
 
             default:
-
-              "^" -> answer = x.pow(y)
-              "*" -> answer = x * y
-              "/" -> answer = x / y
-              "+" -> answer = x + y
-              "-" -> answer = x - y
           }
 
           // Return the answer with the operation applied.
@@ -440,6 +424,16 @@ class CalculateVisitor()
       }
   }
 }
+//------------------------------------------------------------------------------
+
+// Main ------------------------------------------------------------------------
+const input = "1+22-333";
+const expression = parseInput(input);
+
+const expressionTree = createExpressionTree(expression);
+
+const visitor = new CalculateVisitor();
+console.log("Calculated value: " + expressionTree.traverse(visitor));
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
