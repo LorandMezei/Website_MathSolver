@@ -426,16 +426,29 @@ class CalculateVisitor
 }
 //------------------------------------------------------------------------------
 
-// Main ------------------------------------------------------------------------
-//var text = document.getElementById('expression').textContent
+//------------------------------------------------------------------------------
+let btn = document.querySelector('input[name="expressionbutton"]');
 
-const input = "1^22*333";
-const expression = parseInput(input);
+btn.addEventListener('click',function(event) {
+    evaluate();
+});
+//------------------------------------------------------------------------------
 
-const expressionTree = createExpressionTree(expression);
+//------------------------------------------------------------------------------
+function evaluate()
+{
+  var inputElement = document.querySelector('input[name="expression"]');
+  const input = inputElement.value;
 
-const visitor = new CalculateVisitor();
-console.log("Calculated value: " + expressionTree.traverse(visitor));
+  const expression = parseInput(input);
+
+  const expressionTree = createExpressionTree(expression);
+
+  const visitor = new CalculateVisitor();
+
+  var output = document.querySelector('input[name="expression1"]');
+  output.value = expressionTree.traverse(visitor);
+}
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
@@ -444,4 +457,5 @@ console.log("Calculated value: " + expressionTree.traverse(visitor));
 //          https://hackernoon.com/implementing-interfaces-in-javascript-with-implement-js-8746838f8caa
 //          https://www.techiedelight.com/add-new-element-array-kotlin/
 //          https://developer.mozilla.org/en-US/docs/Learn/Forms/Your_first_form
+//          https://stackoverflow.com/questions/15148659/how-can-i-use-queryselector-on-to-pick-an-input-element-by-name
 //------------------------------------------------------------------------------
