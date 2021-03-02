@@ -1,10 +1,10 @@
 // Main ------------------------------------------------------------------------
-val input = "1+22-333";
-val expression = parseInput(input);
+const input = "1+22-333";
+const expression = parseInput(input);
 
-val expressionTree = createExpressionTree(expression);
+const expressionTree = createExpressionTree(expression);
 
-val visitor = CalculateVisitor();
+const visitor = CalculateVisitor();
 console.log("Calculated value: " + expressionTree.traverse(visitor));
 //------------------------------------------------------------------------------
 
@@ -14,8 +14,8 @@ console.log("Calculated value: " + expressionTree.traverse(visitor));
 function createExpressionTree(expression)
 {
   // Build the expression tree. Pass the expression and the Tree object to create it in.
-  val expressionTreeBuilder = ExpressionTreeBuilder();
-  val expressionTree = ExpressionTree();
+  const expressionTreeBuilder = ExpressionTreeBuilder();
+  const expressionTree = ExpressionTree();
 
   expressionTreeBuilder.startBuildTree(expression, t);
 
@@ -28,7 +28,7 @@ function createExpressionTree(expression)
 function parseInput(input)
 {
   // Turn the string input into an array of chars.
-  val chars = input.split('');
+  const chars = input.split('');
 
   // Create an empty array of String.
   var strings = [];
@@ -159,7 +159,7 @@ class ExpressionTreeBuilder
     }
 
     // Find the index in the expression array that is the root value of the current expression.
-    val rootIndex = findRootIndex(expression);
+    const rootIndex = findRootIndex(expression);
 
     // Create a new node that will be the current node.
     var currentNode = Node();
@@ -203,8 +203,8 @@ class ExpressionTreeBuilder
         // If the current string is an operator and the root string is an operator.
         if (operators.includes(expression[currentIndex]) && operators.includes(expression[rootIndex]))
         {
-            val currentString = expression[currentIndex];
-            val rootString = expression[rootIndex];
+            const currentString = expression[currentIndex];
+            const rootString = expression[rootIndex];
 
             // If current string (operator) being looked at does NOT HAVE priority over root string (operator):
             if (!checkOperatorPriority(currentString, rootString))
@@ -216,8 +216,8 @@ class ExpressionTreeBuilder
         // If the current string is an operator and the root string is an operand.
         else if (operators.includes(expression[currentIndex]) && !operators.includes(expression[rootIndex]))
         {
-            val currentString = expression[currentIndex];
-            val rootString = expression[rootIndex];
+            const currentString = expression[currentIndex];
+            const rootString = expression[rootIndex];
 
             // If current string (operator) being looked at HAS priority over root string (operand):
             if (checkOperatorPriority(currentString, rootString))
@@ -229,8 +229,8 @@ class ExpressionTreeBuilder
         // If the current string is an operand and the root string is an operand.
         else if (!operators.includes(expression[currentIndex]) && !operators.includes(expression[rootIndex]))
         {
-            val currentString = expression[currentIndex];
-            val rootString = expression[rootIndex];
+            const currentString = expression[currentIndex];
+            const rootString = expression[rootIndex];
 
             // If current string (operand) being looked at does not have priority over root string (operand):
             if (!checkOperatorPriority(currentString, rootString))
@@ -242,8 +242,8 @@ class ExpressionTreeBuilder
         // If the current string is an operand and the root string is an operator.
         else if (!operators.includes(expression[currentIndex]) && operators.includes(expression[rootIndex]))
         {
-            val currentString = expression[currentIndex];
-            val rootString = expression[rootIndex];
+            const currentString = expression[currentIndex];
+            const rootString = expression[rootIndex];
 
             // If current string (operand) being looked at does HAS priority over root string (operator):
             if (checkOperatorPriority(currentString, rootString))
@@ -398,11 +398,11 @@ class CalculateVisitor()
 
           // x will get left node's content. y will get right node's content.
           // Content is originally string, so convert it to double.
-          val x = parseFloat(node.leftNode.accept(this));
-          val y = parseFloat(node.rightNode.accept(this));
+          const x = parseFloat(node.leftNode.accept(this));
+          const y = parseFloat(node.rightNode.accept(this));
 
           // Choose correct operator based on string's characters.
-          val operator = node.content;
+          const operator = node.content;
 
           // Switch. Apply the appropriate operation to the nodes' contents.
           switch (operator)
