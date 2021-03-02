@@ -1,6 +1,26 @@
-//------------------------------------------------------------------------------
+// Main ------------------------------------------------------------------------
 val input = "1+22-333";
 val expression = parseInput(input);
+
+val expressionTree = createExpressionTree(expression);
+
+val visitor = CalculateVisitor();
+console.log("Calculated value: " + expressionTree.traverse(visitor));
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+// Takes an expression (in the form of an array of strings),
+// and returns an ExpressionTree.
+function createExpressionTree(expression)
+{
+  // Build the expression tree. Pass the expression and the Tree object to create it in.
+  val expressionTreeBuilder = ExpressionTreeBuilder();
+  val expressionTree = ExpressionTree();
+
+  expressionTreeBuilder.startBuildTree(expression, t);
+
+  return expressionTree;
+}
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
@@ -308,22 +328,123 @@ class ExpressionTreeBuilder
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-class IVisitor()
-{
-
-}
-//------------------------------------------------------------------------------
-
-//------------------------------------------------------------------------------
 class PrefixPrintVisitor()
 {
+  visit(node)
+  {
+      // Base case I think.
+      if (node == null)
+      {
+          return null;
+      }
 
+      // If the current node is an operator.
+      if (node.leftNode != null && node.rightNode != null)
+      {
+          switch (node.content)
+          {
+            case "^":
+              console.log("exp ");
+              break;
+
+            case "*":
+              console.log("mul ");
+              break;
+
+            case "/":
+              console.log("div ");
+              break;
+
+            case "+":
+              console.log("add ");
+              break;
+
+            case "-":
+              console.log("sub ");
+              break;
+
+            default:
+          }
+
+          // Recursion.
+          node.leftNode.accept(this)
+          node.rightNode.accept(this)
+      }
+      else
+      {
+          console.log(node.content)
+      }
+
+      return "";
+  }
 }
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
 class CalculateVisitor()
 {
+  // Recursive.
+  visit(node)
+  {
+      // Base case if the node is a leaf node (operand).
+      if (node.leftNode == null && node.rightNode == null)
+      {
+          // Return the value of the node's content.
+          return node.content.toDouble();
+      }
+      else
+      {
+          var answer = 0.0;
 
+          // x will get left node's content. y will get right node's content.
+          // Content is originally string, so convert it to double.
+          val x = parseFloat(node.leftNode.accept(this));
+          val y = parseFloat(node.rightNode.accept(this));
+
+          // Choose correct operator based on string's characters.
+          val operator = node.content;
+
+          // Switch. Apply the appropriate operation to the nodes' contents.
+          switch (operator)
+          {
+            case "^":
+              answer = x.pow(y);
+              break;
+
+            case "*":
+              answer = x * y;
+              break;
+
+            case "/":
+              answer = x / y;
+              break;
+            case "+":
+              answer = x + y;
+              break;
+
+            case "-":
+              answer = x - y;
+              break;
+
+            default:
+
+              "^" -> answer = x.pow(y)
+              "*" -> answer = x * y
+              "/" -> answer = x / y
+              "+" -> answer = x + y
+              "-" -> answer = x - y
+          }
+
+          // Return the answer with the operation applied.
+          return answer;
+      }
+  }
 }
+//------------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
+// Sources: http://www.openbookproject.net/books/pythonds/Trees/ParseTree.html
+//          https://www.codinghelmet.com/exercises/expression-evaluator
+//          https://hackernoon.com/implementing-interfaces-in-javascript-with-implement-js-8746838f8caa
+//          https://www.techiedelight.com/add-new-element-array-kotlin/
 //------------------------------------------------------------------------------
