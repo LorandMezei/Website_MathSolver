@@ -398,7 +398,7 @@ class CalculateVisitor
           switch (operator)
           {
             case "^":
-              answer = x.pow(y);
+              answer = Math.pow(x, y);
               break;
 
             case "*":
@@ -427,7 +427,9 @@ class CalculateVisitor
 //------------------------------------------------------------------------------
 
 // Main ------------------------------------------------------------------------
-const input = "1+22-333";
+//var text = document.getElementById('expression').textContent
+
+const input = "1^22*333";
 const expression = parseInput(input);
 
 const expressionTree = createExpressionTree(expression);
@@ -441,4 +443,5 @@ console.log("Calculated value: " + expressionTree.traverse(visitor));
 //          https://www.codinghelmet.com/exercises/expression-evaluator
 //          https://hackernoon.com/implementing-interfaces-in-javascript-with-implement-js-8746838f8caa
 //          https://www.techiedelight.com/add-new-element-array-kotlin/
+//          https://developer.mozilla.org/en-US/docs/Learn/Forms/Your_first_form
 //------------------------------------------------------------------------------
