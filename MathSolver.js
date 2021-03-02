@@ -442,12 +442,15 @@ function evaluate()
 
   const expression = parseInput(input);
 
-  const expressionTree = createExpressionTree(expression);
+  if (expression.length > 0)
+  {
+    const expressionTree = createExpressionTree(expression);
 
-  const visitor = new CalculateVisitor();
+    const visitor = new CalculateVisitor();
 
-  var output = document.querySelector('input[name="expression1"]');
-  output.value = expressionTree.traverse(visitor);
+    var output = document.querySelector('output[name="expression1"]');
+    output.value = expressionTree.traverse(visitor);
+  }
 }
 //------------------------------------------------------------------------------
 
