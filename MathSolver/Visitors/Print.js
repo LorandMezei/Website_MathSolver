@@ -1,5 +1,7 @@
+import {ExpressionTree, Node, ExpressionTreeBuilder, createExpressionTree} from 'ExpressionTree.js';
+
 //------------------------------------------------------------------------------
-class PrefixPrintVisitor
+export class PrefixPrintVisitor
 {
   visit(node)
   {

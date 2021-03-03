@@ -1,5 +1,7 @@
+import {ExpressionTree, Node, ExpressionTreeBuilder, createExpressionTree} from 'ExpressionTree.js';
+
 //------------------------------------------------------------------------------
-class CalculateVisitor
+export class CalculateVisitor
 {
   // Recursive.
   visit(node)

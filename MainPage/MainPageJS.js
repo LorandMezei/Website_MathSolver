@@ -1,3 +1,7 @@
+import {ExpressionTree, Node, ExpressionTreeBuilder, createExpressionTree} from 'ExpressionTree.js';
+import {CalculateVisitor} from '/Calculate.js';
+import {PrefixPrintVisitor} from '/Print.js';
+
 //------------------------------------------------------------------------------
 let btn = document.querySelector('input[name="expressionbutton"]');
 

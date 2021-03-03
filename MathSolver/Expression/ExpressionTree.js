@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-class ExpressionTree
+export class ExpressionTree
 {
   constructor()
   {
@@ -14,7 +14,7 @@ class ExpressionTree
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-class Node
+export class Node
 {
   constructor()
   {
@@ -31,7 +31,7 @@ class Node
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-class ExpressionTreeBuilder
+export class ExpressionTreeBuilder
 {
   startBuildTree(expression, tree)
   {
@@ -245,7 +245,7 @@ class ExpressionTreeBuilder
 //------------------------------------------------------------------------------
 // Takes an expression (in the form of an array of strings),
 // and returns an ExpressionTree object.
-function createExpressionTree(expression)
+export function createExpressionTree(expression)
 {
   // Build the expression tree. Pass the expression and the Tree object to create it in.
   const expressionTreeBuilder = new ExpressionTreeBuilder();
