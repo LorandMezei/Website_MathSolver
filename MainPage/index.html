@@ -2,18 +2,35 @@
 
 <html>
   <head>
-      <!-- Link Style Sheets -------------------------------------------------------->
-      <link rel="stylesheet" href="MainPageCSS.css">
-      <!----------------------------------------------------------------------------->
+    <!-- Link Style Sheets -------------------------------------------------------->
+    <link rel="stylesheet" href="MainPageCSS.css">
+    <!----------------------------------------------------------------------------->
+
+    <!-- Computer Modern Font (use everywhere)------------------------------------->
+    <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/dreampulse/computer-modern-web-font/master/fonts.css">
+    <style>
+      body {
+        font-family: "Computer Modern Sans", sans-serif;
+      }
+    </style>
+    <!----------------------------------------------------------------------------->
+
   </head>
   <body>
+    <!-- Banner ------------------------------------------------------------------->
+    <div id="banner">
+      <h1>lorand laboratories</h1>
+    </div>
+    <!----------------------------------------------------------------------------->
+
     <!-- Expression Input Form ---------------------------------------------------->
-    <form id = "expression_form">
-      <label for="fname">Enter expression:</label><br>
-      <input type="text" id="expression" name="expression" placeholder="1^22*333"><br>
-      <input type="submit" id="expressionbutton" name ="expressionbutton" value="Evaluate">
-      <output type="text" id="expression1" name="expression1" value=""><br>
-    </form>
+    <div id="expression_input">
+      <form id = "expression_form">
+        <label for="fname">Enter expression:</label><br>
+        <input type="text" id="expression" name="expression" placeholder="1^22*333"><br>
+        <input type="submit" id="expressionbutton" name ="expressionbutton" value="Evaluate">
+      </form>
+    </div>
     <!----------------------------------------------------------------------------->
 
     <!-- Link JavaScript files.---------------------------------------------------->
