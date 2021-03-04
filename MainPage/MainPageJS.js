@@ -1,7 +1,3 @@
-import {ExpressionTree, Node, ExpressionTreeBuilder, createExpressionTree} from 'ExpressionTree.js';
-import {CalculateVisitor} from '/Calculate.js';
-import {PrefixPrintVisitor} from '/Print.js';
-
 //------------------------------------------------------------------------------
 let btn = document.querySelector('input[name="expressionbutton"]');
 
@@ -11,21 +7,11 @@ btn.addEventListener('click',function(event) {
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-function evaluate()
-{
-  var inputElement = document.querySelector('input[name="expression"]');
-  const input = inputElement.value;
-
-  const expression = parseInput(input);
-
-  if (expression.length > 0)
-  {
-    const expressionTree = createExpressionTree(expression);
-
-    const visitor = new CalculateVisitor();
-
-    var output = document.querySelector('output[name="expression1"]');
-    output.value = expressionTree.traverse(visitor);
-  }
-}
+// Sources: http://www.openbookproject.net/books/pythonds/Trees/ParseTree.html
+//          https://www.codinghelmet.com/exercises/expression-evaluator
+//          https://hackernoon.com/implementing-interfaces-in-javascript-with-implement-js-8746838f8caa
+//          https://www.techiedelight.com/add-new-element-array-kotlin/
+//          https://developer.mozilla.org/en-US/docs/Learn/Forms/Your_first_form
+//          https://stackoverflow.com/questions/15148659/how-can-i-use-queryselector-on-to-pick-an-input-element-by-name
+//          https://www.geeksforgeeks.org/how-to-include-a-javascript-file-in-another-javascript-file/
 //------------------------------------------------------------------------------
